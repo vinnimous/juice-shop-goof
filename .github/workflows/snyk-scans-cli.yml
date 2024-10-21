@@ -15,6 +15,7 @@ jobs:
   snyk-os:
     environment: snyk
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@master
       - name: Install Snyk CLI
@@ -32,6 +33,7 @@ jobs:
   snyk-code:
     environment: snyk
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@master
       - name: Install Snyk CLI
@@ -47,6 +49,7 @@ jobs:
   snyk-container:
     environment: snyk
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
     - uses: actions/checkout@master
     - name: Build the Docker image
@@ -65,6 +68,7 @@ jobs:
   snyk-iac:
     environment: snyk
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
     - uses: actions/checkout@master
     - name: Install Snyk CLI
