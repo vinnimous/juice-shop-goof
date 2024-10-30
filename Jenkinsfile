@@ -3,16 +3,18 @@
 pipeline {
     agent any
     stages {
-        stage('Project Build') { // Install any dependencies you need to perform testing
-            steps {
-                script {
-                sh """
-                npm install
-                """
-                }
-            }
-        }
+        // stage('Project Build') { // Install any dependencies you need to perform testing
+        //     steps {
+        //         script {
+        //         sh """
+        //         npm install
+        //         """
+        //         }
+        //     }
+        // }
         stage('Snyk Setup') {
+        
+        
             steps {
                 echo "Downloading Snyk agent"
                 sh '''
@@ -29,6 +31,9 @@ pipeline {
             }
         }
         stage('Snyk Open Source'){
+            // when {
+            //     branch "master"
+            // }
             steps {
                 echo "Snyk Open Source Starting"
                 sh '''
@@ -39,6 +44,9 @@ pipeline {
             }
         }
         stage('Snyk Code'){
+            // when {
+            //     branch "master"
+            // }
             steps {
                 echo "Snyk Code Starting"
                 sh '''
@@ -48,6 +56,9 @@ pipeline {
             }
         }
         stage('Snyk Container'){
+            // when {
+            //     branch "master"
+            // }
             steps {
                 echo "Snyk Container Starting"
                 sh '''
@@ -58,6 +69,9 @@ pipeline {
             }
         }
         stage('Snyk IAC'){
+            // when {
+            //     branch "master"
+            // }
             steps {
                 echo "Snyk IAC Starting"
                 sh '''
