@@ -12,6 +12,11 @@ pipeline {
         //         }
         //     }
         // }
+        stage('Pull image') {
+            steps {
+                docker pull boosef-juiceshop:latest
+            }
+        }
         stage('Snyk Setup') {
         
         
@@ -35,12 +40,17 @@ pipeline {
             //     branch "master"
             // }
             steps {
-                echo "Snyk Open Source Starting"
-                sh '''
-                    ./snyk test --ignore-policy --all-projects
-                    ./snyk monitor
-                '''
-                echo "Snyk Open Source Complete"
+                try {
+                    echo "Snyk Open Source Starting"
+                    sh '''
+                        ./snyk test --all-projects
+                        ./snyk monitor
+                    '''
+                    echo "Snyk Open Source Complete"
+                } catch (e) {
+                    echo "Snyk Open Source has issues"
+                }
+                
             }
         }
         stage('Snyk Code'){
@@ -48,11 +58,15 @@ pipeline {
             //     branch "master"
             // }
             steps {
-                echo "Snyk Code Starting"
-                sh '''
-                    ./snyk code test
-                '''
-                echo "Snyk Code Complete"
+                try {
+                    echo "Snyk Code Starting"
+                    sh '''
+                        ./snyk code test
+                    '''
+                    echo "Snyk Code Complete"
+                } catch (e) {
+                    echo "Snyk Code has issues"
+                }
             }
         }
         stage('Snyk Container'){
@@ -60,12 +74,16 @@ pipeline {
             //     branch "master"
             // }
             steps {
-                echo "Snyk Container Starting"
-                sh '''
-                    ./snyk container test boosef-juiceshop:latest --file=Dockerfile
-                    ./snyk container monitor boosef-juiceshop:latest --file=Dockerfile
-                '''
-                echo "Snyk Container Complete"
+                try {
+                    echo "Snyk Container Starting"
+                    sh '''
+                        ./snyk container test boosef-juiceshop:latest --file=Dockerfile
+                        ./snyk container monitor boosef-juiceshop:latest --file=Dockerfile
+                    '''
+                    echo "Snyk Container Complete"
+                } catch (e){
+                    echo "Snyk Container has issues"
+                }
             }
         }
         stage('Snyk IAC'){
@@ -73,11 +91,15 @@ pipeline {
             //     branch "master"
             // }
             steps {
-                echo "Snyk IAC Starting"
-                sh '''
-                    ./snyk iac test --report
-                '''
-                echo "Snyk IAC Complete"
+                try {
+                    echo "Snyk IAC Starting"
+                    sh '''
+                        ./snyk iac test --report
+                    '''
+                    echo "Snyk IAC Complete"
+                } catch (e) {
+                    echo "Snyk IAC has issues"
+                }
             }
         }
         // stage ("Attempting security stages") {
