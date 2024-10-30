@@ -1,6 +1,9 @@
 @Library("security_stages") _
 
 pipeline {
+    environment {
+        DOCKERTAG = 'boosef-juiceshop:latest'
+    }
     agent any
     stages {
         // stage('Project Build') { // Install any dependencies you need to perform testing
@@ -14,7 +17,7 @@ pipeline {
         // }
         stage('Pull image') {
             steps {
-                sh "docker build . -t boosef-juiceshop:latest"
+                sh "docker build . -t ${DOCKERTAG}"
             }
         }
         stage('Snyk Setup') {
@@ -43,8 +46,8 @@ pipeline {
                 catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE', message: 'Snyk Open Source has issues') {
                     echo "Snyk Open Source Starting"
                     sh '''
-                        ./snyk test --all-projects
-                        ./snyk monitor
+                        ./snyk test --all-projects --org=snyk-certification-vinny
+                        ./snyk monitor --org=snyk-certification-vinny
                     '''
                     echo "Snyk Open Source Complete"
                 } 
@@ -58,7 +61,7 @@ pipeline {
                 catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE', message: 'Snyk Code has issues') {
                     echo "Snyk Code Starting"
                     sh '''
-                        ./snyk code test
+                        ./snyk code test --org=snyk-certification-vinny
                     '''
                     echo "Snyk Code Complete"
                 } 
@@ -72,8 +75,8 @@ pipeline {
                 catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE', message: 'Snyk Container has issues') {
                     echo "Snyk Container Starting"
                     sh '''
-                        ./snyk container test boosef-juiceshop:latest --file=Dockerfile
-                        ./snyk container monitor boosef-juiceshop:latest --file=Dockerfile
+                        ./snyk container test ${DOCKERTAG} --file=Dockerfile --org=snyk-certification-vinny
+                        ./snyk container monitor ${DOCKERTAG} --file=Dockerfile --org=snyk-certification-vinny
                     '''
                     echo "Snyk Container Complete"
                 } 
@@ -87,7 +90,7 @@ pipeline {
                 catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE', message: 'Snyk IAC has issues') {
                     echo "Snyk IAC Starting"
                     sh '''
-                        ./snyk iac test --report
+                        ./snyk iac test --org=snyk-certification-vinny --report
                     '''
                     echo "Snyk IAC Complete"
                 } 
