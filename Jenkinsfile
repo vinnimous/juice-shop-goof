@@ -14,7 +14,7 @@ pipeline {
         // }
         stage('Pull image') {
             steps {
-                sh "docker pull boosef-juiceshop:latest"
+                sh "docker build . -t boosef-juiceshop:latest"
             }
         }
         stage('Snyk Setup') {
