@@ -37,7 +37,7 @@ pipeline {
             steps {
                 echo "Snyk Open Source Starting"
                 sh '''
-                    ./snyk test
+                    ./snyk test --ignore-policy --all-projects
                     ./snyk monitor
                 '''
                 echo "Snyk Open Source Complete"
