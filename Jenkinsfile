@@ -22,7 +22,7 @@ pipeline {
                 script {
                     echo "Downloading Snyk agent"
                     sh '''
-                        snyk_cli_dl_linux="https://static.snyk.io/cli/latest/snyk-linux"
+                        snyk_cli_dl_linux="https://downloads.snyk.io/cli/stable/snyk-linux"
                         echo "Download URL: ${snyk_cli_dl_linux}"
                         curl -Lso ./snyk "${snyk_cli_dl_linux}"
                         chmod +x snyk
