@@ -16,11 +16,11 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Pull image') {
-            steps {
-                sh "docker build . -t ${DOCKERTAG}"
-            }
-        }
+        // stage('Pull image') {
+        //     steps {
+        //         sh "docker build . -t ${DOCKERTAG}"
+        //     }
+        // }
         stage ("Attempting security stages") {
             steps {
                 shared()
