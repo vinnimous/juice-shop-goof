@@ -20,11 +20,11 @@ pipeline {
             steps {
                 script {
                 withCredentials([string(credentialsId: 'snyk_cli', variable: 'secretText')]) {
-                    sh "./snyk auth ${secretText}"
+                    sh "snyk auth ${secretText}"
                 }
                 sh """
-                snyk test --ignore-policy --project-name=${projectName} --json | snyk-to-html -o results-opensource.html
-                snyk code test --project-name=${projectName} --json | snyk-to-html -o results-code.html
+                snyk test --ignore-policy --project-name=juice-shop-deploy --json | snyk-to-html -o results-opensource.html
+                snyk code test --project-name=juice-shop-deploy --json | snyk-to-html -o results-code.html
                 """
                 }
             }
