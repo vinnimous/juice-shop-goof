@@ -20,7 +20,7 @@ pipeline {
         stage ("Attempting security stages") {
             steps {
                 script {
-                withCredentials([string(credentialsId: 'snyk_cli', variable: 'secretText')]) {
+                withCredentials([string(credentialsId: 'snykservicetoken', variable: 'secretText')]) {
                     sh "snyk auth -d ${secretText}"
                 }
                 sh """
