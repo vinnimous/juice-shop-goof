@@ -23,8 +23,8 @@ pipeline {
                     sh "snyk auth ${secretText}"
                 }
                 sh """
-                snyk test --ignore-policy --project-name=juice-shop-deploy --json | snyk-to-html -o results-opensource.html
-                snyk code test --project-name=juice-shop-deploy --json | snyk-to-html -o results-code.html
+                snyk test --project-name=juice-shop-deploy
+                snyk code test --project-name=juice-shop-deploy
                 """
                 }
             }
