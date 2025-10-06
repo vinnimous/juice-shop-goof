@@ -23,8 +23,9 @@ pipeline {
                     sh "snyk auth ${secretText}"
                 }
                 sh """
-                snyk test --project-name=juice-shop-deploy
-                snyk code test --project-name=juice-shop-deploy
+                snyk config set org=${SNYK_CFG_ORG}
+                snyk test --project-name=juice-shop-goof
+                snyk code test --project-name=juice-shop-goof
                 """
                 }
             }
