@@ -3,7 +3,6 @@
 pipeline {
     environment {
         DOCKERTAG = 'boosef-juiceshop:latest'
-        SNYK_CFG_ORG = 'snyk-certification-vinny'
         PROJECT_NAME = 'juice-shop-goof'
     }
     agent any
@@ -21,12 +20,11 @@ pipeline {
             steps {
                 script {
                 withCredentials([string(credentialsId: 'snykservicetoken', variable: 'secretText')]) {
-                    sh "snyk auth -d ${secretText}"
+                    sh "snyk auth ${secretText}"
                 }
                 sh """
-                snyk config set org=${SNYK_CFG_ORG}
-                snyk test -d --project-name=${PROJECT_NAME}
-                snyk code test -d --project-name=${PROJECT_NAME}
+                snyk test --project-name=${PROJECT_NAME} --all-projects
+                snyk code test --project-name=${PROJECT_NAME} --all-projects
                 """
                 }
             }
