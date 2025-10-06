@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                 withCredentials([string(credentialsId: 'snyk_cli', variable: 'secretText')]) {
-                    sh "snyk auth ${secretText}"
+                    sh "snyk auth --auth-type=token ${secretText}"
                 }
                 sh """
                 snyk config set org=${SNYK_CFG_ORG}
