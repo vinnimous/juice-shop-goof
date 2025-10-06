@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKERTAG = 'boosef-juiceshop:latest'
         SNYK_CFG_ORG = 'snyk-certification-vinny'
+        PROJECT_NAME = 'juice-shop-goof'
     }
     agent any
     stages {
@@ -24,8 +25,9 @@ pipeline {
                 }
                 sh """
                 snyk config set org=${SNYK_CFG_ORG}
-                snyk test --project-name=juice-shop-goof
-                snyk code test --project-name=juice-shop-goof
+                snyk auth test
+                snyk test --project-name=${PROJECT_NAME}
+                snyk code test --project-name=${PROJECT_NAME}
                 """
                 }
             }
