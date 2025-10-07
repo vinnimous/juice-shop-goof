@@ -24,8 +24,9 @@ pipeline {
                 }
                 sh """
                 snyk test --all-projects
-                snyk code test --all-projects
+                snyk code test --project-name=${PROJECT_NAME}
                 snyk container test ${DOCKERTAG}
+                snyk monitor --all-projects
                 """
                 }
             }
