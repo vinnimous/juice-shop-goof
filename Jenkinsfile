@@ -23,8 +23,9 @@ pipeline {
                     sh "snyk auth ${secretText}"
                 }
                 sh """
-                snyk test --project-name=${PROJECT_NAME}
-                snyk code test --project-name=${PROJECT_NAME} --all-projects
+                snyk test --all-projects
+                snyk code test --all-projects
+                snyk container test ${DOCKERTAG}
                 """
                 }
             }
