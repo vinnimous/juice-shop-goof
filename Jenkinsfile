@@ -23,7 +23,7 @@ pipeline {
                     sh "snyk auth ${secretText}"
                 }
                 sh """
-                snyk test --all-projects
+                snyk test --all-projects --ignore-policy
                 snyk code test --project-name=${PROJECT_NAME}
                 snyk container test ${DOCKERTAG}
                 snyk monitor --all-projects
